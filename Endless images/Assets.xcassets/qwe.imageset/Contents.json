@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Снимок экрана 2024-02-07 в 13.28.42.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Снимок экрана 2024-02-07 в 13.28.42 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Снимок экрана 2024-02-07 в 13.28.42 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

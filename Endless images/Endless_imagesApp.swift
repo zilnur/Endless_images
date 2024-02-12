@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Endless_imagesApp: App {
+    @StateObject var feedViewModel = FeedViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                FeedView(viewModel: feedViewModel)
+            }
         }
     }
 }
