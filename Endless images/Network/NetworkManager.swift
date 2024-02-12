@@ -14,7 +14,12 @@ enum MyErrors: Error {
     case serverError(String)
 }
 
-class NetworkManager {
+protocol NetworkManagerProtocol {
+    func task<T: Decodable>(model: T.Type,queryItems: [String:String]) throws -> AnyPublisher<T, Error>
+    func loadImage(request: URLRequest) -> AnyPublisher<Data, Never>
+}
+
+class NetworkManager: NetworkManagerProtocol {
     
     private let apiKey = "live_3XmmyATVYsZoZwkappGCzLEnfKBtJpw0E0zbcclV9vQrHBNqWoLvo8OLprMhMHR1"
     private let decoder: JSONDecoder = {

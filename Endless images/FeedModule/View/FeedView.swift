@@ -8,9 +8,9 @@
 import SwiftUI
 import Combine
 
-struct FeedView: View {
+struct FeedView<ViewModel>: View where ViewModel: FeedViewModelProtocol {
     
-    @ObservedObject var viewModel: FeedViewModel
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         if viewModel.state != .loading  {

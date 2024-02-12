@@ -8,23 +8,35 @@
 import Foundation
 import Combine
 
-class FeedViewModel: ObservableObject {
+protocol FeedViewModelProtocol: ObservableObject {
+    var state: RequestState { get set }
+    var errorDescription: String { get set }
+    var isShowAlert: Bool { get set }
+    var model: [ImageModel]  { get set }
+    func loadImages()
+    func loadMoreImages()
+    func startLoadMore(image: ImageModel) -> Bool
+    func loadImage(index: Int)
+}
+
+enum RequestState {
+    case loading
+    case loaded
+    case pagination
+}
+
+class FeedViewModel: FeedViewModelProtocol {
     
-    enum RequestState {
-        case loading
-        case loaded
-        case pagination
-    }
-    
-    let network = NetworkManager()
-    var can = Set<AnyCancellable>()
+    private let network: NetworkManagerProtocol
+    private var can = Set<AnyCancellable>()
+    private var page = 0
     @Published var state = RequestState.loading
     @Published var errorDescription = ""
     @Published var isShowAlert = false
     @Published var model = [ImageModel]()
-    var page = 0
     
-    init() {
+    init(network: NetworkManagerProtocol) {
+        self.network = network
         loadImages()
     }
     
@@ -55,7 +67,7 @@ class FeedViewModel: ObservableObject {
             errorDescription = error.localizedDescription
             self.isShowAlert.toggle()
         }
-            
+        
     }
     
     func loadMoreImages() {
@@ -101,9 +113,9 @@ class FeedViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { error in
-            }, receiveValue: { data in
-                self.model[index].image = data
-            })
+                }, receiveValue: { data in
+                    self.model[index].image = data
+                })
             .store(in: &can)
     }
 }
